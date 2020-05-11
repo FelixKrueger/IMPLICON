@@ -1,5 +1,6 @@
 # IMPLICON
-A processing guide for IMPLICON data (bisulfite amplicon data for imprinted loci)
+A processing guide for IMPLICON data (bisulfite amplicon data for imprinted loci). 
+IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinted regions [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042v1)
 
 
 [<img title="Babraham Bioinformatics" style="float:right;margin:20px 20 20 600px" id="Babraham Bioinformatics" src="Images/logo.png" height="88" >](http://www.bioinformatics.babraham.ac.uk/index.html)
@@ -44,19 +45,21 @@ trim_galore --paired *UMI*fastq.gz
 bismark --genome /Genomes/Mouse/GRCm38/ -1 test_8bp_UMI_R1_val_1.fq.gz -2 test_8bp_UMI_R2_val_2.fq.gz
 ```
 
-STEP IV: UMI-aware deduplication
+**Step IV: UMI-aware deduplication**
 
 ```
 deduplicate_bismark --barcode test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
 ```
 
-STEP V: Methylation extraction
+**Step V: Methylation extraction**
 
 ```
 bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 ```
 
-6. 
+**Step VI **
+
+etc.
 
 ## Detailed Processing Guide
 
@@ -64,7 +67,7 @@ bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt
 
 At its 5’ end, Read 2 carries 8 bp of randomised nucleotides that serve as unique molecular identifiers (UMI) for the amplification reaction. The UMI sequence needs to be transferred from the start of Read 2 to the readID of both reads to allow UMI-aware deduplication later, a step that can be accomplished using the Trim Galore with the option --implicon (for more information type trim_galore --help). In this step, the UMI of Read 2 is added to the readID of both reads as the last element separated by a “:”, e.g.:
 
-@HWI-D00436:407:CCAETANXX:1:1101:4105:1905 1:N:0: CGATGTTT:CAATTTTG
+    @HWI-D00436:407:CCAETANXX:1:1101:4105:1905 1:N:0: CGATGTTT:**CAATTTTG**
 
 To run this specialised UMI-transfer trimming on all files of a MiSeq run you can run this command:
 
@@ -72,15 +75,6 @@ To run this specialised UMI-transfer trimming on all files of a MiSeq run you ca
 trim_galore --paired --implicon *fastq.gz
 ```
 
-Step I: UMI handling
-
-At its 5’ end, Read 2 carries 8 bp of randomised nucleotides that serve as unique molecular identifiers (UMI) for the amplification reaction. The UMI sequence needs to be transferred from the start of Read 2 to the readID of both reads to allow UMI-aware deduplication later, a step that can be accomplished using the Trim Galore with the option --implicon (for more information type trim_galore --help). In this step, the UMI of Read 2 is added to the readID of both reads as the last element separated by a “:”, e.g.:
-
-@HWI-D00436:407:CCAETANXX:1:1101:4105:1905 1:N:0: CGATGTTT:CAATTTTG
-
-To run this specialised UMI-transfer trimming on all files of a MiSeq run you can run this command:
-
-trim_galore --paired --implicon *fastq.gz
 
 The FastQC per base sequence content plot would look something like this:
 
@@ -90,13 +84,15 @@ Read 2 - Raw FastQ file	Read 2 - after UMI handling
 
 As an example, the following commands are exemplified by a set of test files:
  
-Input files:
-test_R1.fastq.gz
-test_R2.fastq.gz
+**Input files:**
+> test_R1.fastq.gz
+> test_R2.fastq.gz
 
-Output files:
+**Output files:**
+```
 test_8bp_UMI_R1.fastq.gz
 test_8bp_UMI_R2.fastq.gz
+```
 
 ### Step II: Adapter-/quality trimming
 
