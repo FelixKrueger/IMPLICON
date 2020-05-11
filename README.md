@@ -1,8 +1,8 @@
 # IMPLICON - bisulfite amplicon data for imprinted loci
 
-A processing guide for IMPLICON data. Link to the pre-print:
+A processing guide for IMPLICON data. Link to the pre-print at [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042v1):
 
-IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinted regions [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042v1)
+IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinted regions
 
 
 
@@ -84,6 +84,7 @@ The FastQC per base sequence content plot would look something like this:
 Read 2 - Raw FastQ file	Read 2 - after UMI handling
  	 
 TODO: INSERT TWO FIGURES HERE
+[!<img title="Read 2 - Untrimmed" style="float:right;margin:600px 20 20 20px" id="R2_untrimmed" src="Docs/Images/R2_untrimmed.png" height="88" >]
 
 As an example, we are using the following set of test files to demonstrate subsequent steps that need to be taken:
  
