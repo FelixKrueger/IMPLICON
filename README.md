@@ -1,5 +1,7 @@
-# IMPLICON
-A processing guide for IMPLICON data (bisulfite amplicon data for imprinted loci). Link to pre-print: 
+# IMPLICON - bisulfite amplicon data for imprinted loci
+
+A processing guide for IMPLICON data. Link to the pre-print:
+
 IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinted regions [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042v1)
 
 
