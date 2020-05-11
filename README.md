@@ -9,9 +9,9 @@ Last update: 02/07/2019
 #### Table of Contents
 * [Quick Start](#quick-start)
 * [Detailed Processing Guide](#detailed-processing-guide)
-  * [UMI-handling](#step-i-umi-handling)
-  1. [Quality Trimming](#step-1-quality-trimming)
-  2. [Adapter Trimming](#step-2-adapter-trimming)
+  1. [UMI-handling](#step-i-umi-handling)
+  2. [Adapter-/Quality Trimming](#step-ii-quality-trimming)
+  3. [Adapter Trimming](#step-iii-adapter-trimming)
     - [Auto-detection](#adapter-auto-detection)
     - [Manual adapter sequence specification](#manual-adapter-sequence-specification)
   3. [Removing Short Sequences](#step-3-removing-short-sequences)
@@ -22,6 +22,8 @@ Last update: 02/07/2019
 
 
 ## QUICK START
+
+The following commands work with these hypothetical IMPLICON paired-end reads: `test_R1.fastq.gz` and `test_R2.fastq.gz`.
 
 1. UMI-handling
 
@@ -95,7 +97,7 @@ Output files:
 test_8bp_UMI_R1.fastq.gz
 test_8bp_UMI_R2.fastq.gz
 
-Step II: Adapter/quality trimming
+### Step II: Adapter/quality trimming
 
 Following UMI-handling, IMPLICON reads require adapter and quality trimming. A standard Trim Galore run should identify and remove read-through adapter contamination as well as poor quality base calls, like so:
 
