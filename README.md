@@ -10,7 +10,7 @@ Last update: 02/07/2019
 * [Quick Start](#quick-start)
 * [Detailed Processing Guide](#detailed-processing-guide)
   1. [UMI-handling](#step-i-umi-handling)
-  2. [Adapter-/Quality Trimming](#step-ii-quality-trimming)
+  2. [Adapter-/Quality Trimming](#step-ii-adapter-quality-trimming)
   3. [Adapter Trimming](#step-iii-adapter-trimming)
     - [Auto-detection](#adapter-auto-detection)
     - [Manual adapter sequence specification](#manual-adapter-sequence-specification)
@@ -23,22 +23,22 @@ Last update: 02/07/2019
 
 ## QUICK START
 
-The following commands work with these hypothetical IMPLICON paired-end reads:
+The following commands work with these hypothetical IMPLICON paired-end reads from a C57BL/6 mouse:
 `test_R1.fastq.gz` and `test_R2.fastq.gz`.
 
-STEP I: UMI-handling
+**Step I: UMI-handling**
 
 ```
 trim_galore --paired --implicon *fastq.gz
 ```
 
-STEP II: Adapter-/quality trimming
+**Step II: Adapter-/quality trimming**
 
 ```
 trim_galore --paired *UMI*fastq.gz
 ```
 
-STEP III: Genome alignments
+**Step III: Genome alignments**
 
 ```
 bismark --genome /Genomes/Mouse/GRCm38/ -1 test_8bp_UMI_R1_val_1.fq.gz -2 test_8bp_UMI_R2_val_2.fq.gz
