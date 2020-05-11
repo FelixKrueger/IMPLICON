@@ -5,7 +5,6 @@ A processing guide for IMPLICON data. Link to the pre-print:
 IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinted regions [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042v1)
 
 
-[<img title="Babraham Bioinformatics" style="float:right;margin:20px 20 20 600px" id="Babraham Bioinformatics" src="Docs/Images/logo.png" height="88" >](http://www.bioinformatics.babraham.ac.uk/index.html)
 
 Last update: 02/07/2019
 
@@ -159,3 +158,6 @@ Step VI: Genome alignments
 
 Askjkhdjfh
 
+
+
+[<img title="Babraham Bioinformatics" style="float:right;margin:600px 20 20 20px" id="Babraham Bioinformatics" src="Docs/Images/logo.png" height="88" >](http://www.bioinformatics.babraham.ac.uk/index.html)
