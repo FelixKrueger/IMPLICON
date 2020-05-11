@@ -23,33 +23,34 @@ Last update: 02/07/2019
 
 ## QUICK START
 
-The following commands work with these hypothetical IMPLICON paired-end reads: `test_R1.fastq.gz` and `test_R2.fastq.gz`.
+The following commands work with these hypothetical IMPLICON paired-end reads:
+`test_R1.fastq.gz` and `test_R2.fastq.gz`.
 
-1. UMI-handling
+STEP I: UMI-handling
 
 ```
 trim_galore --paired --implicon *fastq.gz
 ```
 
-2. Adapter-/quality trimming
+STEP II: Adapter-/quality trimming
 
 ```
 trim_galore --paired *UMI*fastq.gz
 ```
 
-3. Genome alignments
+STEP III: Genome alignments
 
 ```
 bismark --genome /Genomes/Mouse/GRCm38/ -1 test_8bp_UMI_R1_val_1.fq.gz -2 test_8bp_UMI_R2_val_2.fq.gz
 ```
 
-4. UMI-aware deduplication
+STEP IV: UMI-aware deduplication
 
 ```
 deduplicate_bismark --barcode test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
 ```
 
-5. Methylation extraction
+STEP V: Methylation extraction
 
 ```
 bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
@@ -97,7 +98,7 @@ Output files:
 test_8bp_UMI_R1.fastq.gz
 test_8bp_UMI_R2.fastq.gz
 
-### Step II: Adapter/quality trimming
+### Step II: Adapter-/quality trimming
 
 Following UMI-handling, IMPLICON reads require adapter and quality trimming. A standard Trim Galore run should identify and remove read-through adapter contamination as well as poor quality base calls, like so:
 
