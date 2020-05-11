@@ -6,7 +6,7 @@ IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinte
 
 
 
-Last update: 02/07/2019
+Last update: 12/05/2020
 
 #### Table of Contents
 * [Quick Start](#quick-start)
@@ -25,8 +25,11 @@ Last update: 02/07/2019
 
 ## QUICK START
 
-The following commands work with these hypothetical IMPLICON paired-end reads from a C57BL/6 mouse:
-`test_R1.fastq.gz` and `test_R2.fastq.gz`.
+The following commands are designed to work with a hypothetical paired-end IMPLICON dataset consisting of reads from a C57BL/6 mouse:
+
+**Read 1:** `test_R1.fastq.gz`
+
+**Read 2:** `test_R2.fastq.gz`
 
 **Step I: UMI-handling**
 
