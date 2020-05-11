@@ -14,10 +14,10 @@ Last update: 12/05/2020
   1. [UMI-handling](#step-i-umi-handling)
   2. [Adapter-/Quality Trimming](#step-ii-adapter-quality-trimming)
   3. [Genome Alignments](#step-iii-genome-alignments)
+  4. [UMI-aware deduplication](#step-iv-umi-aware-deduplication)
     - [Auto-detection](#adapter-auto-detection)
-    - [Manual adapter sequence specification](#manual-adapter-sequence-specification)
-  3. [Removing Short Sequences](#step-3-removing-short-sequences)
-  4. [Specialised Trimming - hard- and Epigenetic Clock Trimming](#step-4-specialised-trimming)
+  5. [Methylation extraction](#step-v-methylation-extraction)
+  6. [Specialised Trimming - hard- and Epigenetic Clock Trimming](#step-4-specialised-trimming)
 * [Full list of options for Trim Galore!](#full-list-of-options-for-trim-galore)
   * [RRBS-specific options](#rrbs-specific-options-mspi-digested-material)
   * [Paired-end specific options](#paired-end-specific-options)
@@ -25,10 +25,9 @@ Last update: 12/05/2020
 
 ## QUICK START
 
-The following commands are designed to work with a hypothetical paired-end IMPLICON dataset consisting of reads from a C57BL/6 mouse:
+The following commands are designed to work with a hypothetical example paired-end IMPLICON dataset consisting of reads from a C57BL/6 mouse:
 
 **Read 1:** `test_R1.fastq.gz`
-
 **Read 2:** `test_R2.fastq.gz`
 
 **Step I: UMI-handling**
@@ -61,7 +60,7 @@ deduplicate_bismark --barcode test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
 bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 ```
 
-**Step VI **
+**Step VI:**
 
 etc.
 
@@ -84,9 +83,9 @@ The FastQC per base sequence content plot would look something like this:
 
 Read 2 - Raw FastQ file	Read 2 - after UMI handling
  	 
+TODO: INSERT TWO FIGURES HERE
 
-
-As an example, the following commands are exemplified by a set of test files:
+As an example, we are using the following set of test files to demonstrate subsequent steps that need to be taken:
  
 **Input files:**
 ```
@@ -102,7 +101,7 @@ test_8bp_UMI_R2.fastq.gz
 
 ### Step II: Adapter-/quality trimming
 
-Following UMI-handling, IMPLICON reads require adapter and quality trimming. A standard Trim Galore run should identify and remove read-through adapter contamination as well as poor quality base calls, like so:
+Following UMI-handling, UMI-treated IMPLICON reads require adapter and quality trimming. A standard Trim Galore run should identify and remove read-through adapter contamination as well as poor quality base calls, like so:
 
 ```
 trim_galore --paired *UMI*fastq.gz
@@ -116,7 +115,7 @@ test_8bp_UMI_R2_val_2.fq.gz
 
 ### Step III: Genome alignments
 
-Alignments to the mouse or human genome can then be obtained with a standard Bismark run, e.g.:
+Alignments to the mouse or human genome can then be obtained with a standard Bismark paired-end run, e.g.:
 
 ```
 bismark --genome /Genomes/Mouse/GRCm38/ -1 test_8bp_UMI_R1_val_1.fq.gz -2 test_8bp_UMI_R2_val_2.fq.gz
@@ -129,7 +128,7 @@ test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
 
 The output BAM file is then ready for a UMI-aware deduplication step. 
 
-Step IV: UMI-aware deduplication
+### Step IV: UMI-aware deduplication
 
 In this step, paired-end read alignments are deduplicated based on:
 •	chromosome
@@ -143,21 +142,26 @@ deduplicate_bismark --barcode test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
 Relevant output files:
 test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 
-Step V: Methylation extraction
+## Step V: Methylation extraction
 
 Askjkhdjfh
 
 bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 
-Relevant output files:
+**Relevant output files:**
 
-General methylation analysis (coverage file):
+**General methylation analysis (coverage file):**
+```
 test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bismark.cov.gz
+```
 
-CpG context files for bisulfite consistency analysis:
+**CpG context files for bisulfite consistency analysis:**
+```
 CpG_OB_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (top strand)
 CpG_OT_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (bottom strand)
-Step VI: Genome alignments
+```
+
+## Step VI: Genome alignments
 
 Askjkhdjfh
 
