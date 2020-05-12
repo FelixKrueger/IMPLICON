@@ -70,7 +70,7 @@ etc.
 
 At its 5’ end, Read 2 carries 8 bp of randomised nucleotides that serve as unique molecular identifiers (UMI) for the amplification reaction. The UMI sequence needs to be transferred from the start of Read 2 to the readID of both reads to allow UMI-aware deduplication later, a step that can be accomplished using the Trim Galore with the option --implicon (for more information type trim_galore --help). In this step, the UMI of Read 2 is added to the readID of both reads as the last element separated by a “:”, e.g.:
 
-> @HWI-D00436:407:CCAETANXX:1:1101:4105:1905 1:N:0: CGATGTTT:**CAATTTTG**
+@HWI-D00436:407:CCAETANXX:1:1101:4105:1905 1:N:0: CGATGTTT:**CAATTTTG**
 
 To run this specialised UMI-transfer trimming on all files of a MiSeq run you can run this command:
 
@@ -84,7 +84,7 @@ The FastQC per base sequence content plot would look something like this:
 Read 2 - Raw FastQ file	Read 2 - after UMI handling
  	 
 TODO: INSERT TWO FIGURES HERE
-[!<img title="Read 2 - Untrimmed" style="float:right;margin:600px 20 20 20px" id="R2_untrimmed" src="Docs/Images/R2_untrimmed.png" height="88" >]
+![<img title="Read 2 - Untrimmed" style="float:right;margin:600px 20 20 20px" id="R2_untrimmed" src="Docs/Images/R2_untrimmed.png" height="88" >]
 
 As an example, we are using the following set of test files to demonstrate subsequent steps that need to be taken:
  
@@ -132,10 +132,15 @@ The output BAM file is then ready for a UMI-aware deduplication step.
 ### Step IV: UMI-aware deduplication
 
 In this step, paired-end read alignments are deduplicated based on:
+
 •	chromosome
+
 •	start position
+
 •	end position
+
 •	alignment orientation
+
 •	UMI from the read header (see Step I)
 
 deduplicate_bismark --barcode test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
@@ -149,7 +154,7 @@ Askjkhdjfh
 
 bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 
-**Relevant output files:**
+**Relevant output files**
 
 **General methylation analysis (coverage file):**
 ```
