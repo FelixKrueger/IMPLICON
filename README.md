@@ -15,8 +15,8 @@ Last update: 12/05/2020
   2. [Adapter-/Quality Trimming](#step-ii-adapter-quality-trimming)
   3. [Genome Alignments](#step-iii-genome-alignments)
   4. [UMI-aware deduplication](#step-iv-umi-aware-deduplication)
-    - [Auto-detection](#adapter-auto-detection)
-  5. [Methylation extraction](#step-v-methylation-extraction)
+  5. [Allele-specific sorting (optional)](#step-v-allele-specific-sorting) 
+  6. [Methylation extraction](#step-vi-methylation-extraction)
   6. [Specialised Trimming - hard- and Epigenetic Clock Trimming](#step-4-specialised-trimming)
 * [Full list of options for Trim Galore!](#full-list-of-options-for-trim-galore)
   * [RRBS-specific options](#rrbs-specific-options-mspi-digested-material)
@@ -127,6 +127,10 @@ Alignments to the mouse or human genome can then be obtained with a standard Bis
 bismark --genome /Genomes/Mouse/GRCm38/ -1 test_8bp_UMI_R1_val_1.fq.gz -2 test_8bp_UMI_R2_val_2.fq.gz
 ```
 
+For allele-specific mouse hybrid data, the alignments need to be carried out against a genome that has SNPs between the parental strains masked out with Ns (N-masking). To prepare such a genome, please follow the instructions over at the [SNPsplit project](https://github.com/FelixKrueger/SNPsplit) page. The alignments as well as the output file will behave and look exactly the same, but an additional allele-sorting step needs to be carried out for allele-specific data.
+
+
+
 **Relevant output files:**
 ```
 test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
@@ -157,7 +161,12 @@ deduplicate_bismark --barcode test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
 test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 ```
 
-## Step V: Methylation extraction
+## Step V: Allele-specific sorting
+
+This step is optional, and only needs to be carried out for alignments against N-masked hybrid genomes processed with the [SNPsplit package](https://github.com/FelixKrueger/SNPsplit).
+
+
+## Step VI: Methylation extraction
 
 Askjkhdjfh
 
