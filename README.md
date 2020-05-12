@@ -159,7 +159,7 @@ test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 
 ## Step V: Allele-specific sorting
 
-    This step is optional, and only needs to be carried out for alignments against N-masked hybrid genomes processed with the     [SNPsplit package](https://github.com/FelixKrueger/SNPsplit).
+> This step is optional, and only needs to be carried out for alignments against N-masked hybrid genomes processed with the     [SNPsplit package](https://github.com/FelixKrueger/SNPsplit).
 
 
 ## Step VI: Methylation extraction
