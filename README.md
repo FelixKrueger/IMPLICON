@@ -83,8 +83,10 @@ The FastQC per base sequence content plot would look something like this:
 
 Read 2 - Raw FastQ file	Read 2 - after UMI handling
  	 
-TODO: INSERT TWO FIGURES HERE
-![<img title="Read 2 - Untrimmed" style="float:right;margin:600px 20 20 20px" id="R2_untrimmed" src="Docs/Images/R2_untrimmed.png" height="88" >]
+**Raw FastQ file:**
+<img title="Read 2 - Untrimmed" style="float:right;margin:20px 20 20 20px" id="R2_untrimmed" src="Docs/Images/R2_untrimmed.png" height="300" >
+**UMI trimmed file:**
+<img title="Read 2 - UMI-trimmed" style="float:right;margin:20px 20 20 20px" id="R2_trimmed" src="Docs/Images/R2_UMI_trimmed.png" height="300" >
 
 As an example, we are using the following set of test files to demonstrate subsequent steps that need to be taken:
  
@@ -143,16 +145,22 @@ In this step, paired-end read alignments are deduplicated based on:
 
 •	UMI from the read header (see Step I)
 
+```
 deduplicate_bismark --barcode test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
+```
 
-Relevant output files:
+**Relevant output files:**
+```
 test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
+```
 
 ## Step V: Methylation extraction
 
 Askjkhdjfh
 
+```
 bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
+```
 
 **Relevant output files**
 
