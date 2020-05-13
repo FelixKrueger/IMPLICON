@@ -8,16 +8,17 @@ IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinte
 
 Last update: 12/05/2020
 
-#### Table of Contents
+### Table of Contents
 * [Quick Start](#quick-start)
-* [Detailed Processing Guide](#more-detailed-processing-guide)
+* [Detailed Processing Guide](#detailed-data-processing-guide)
   1. [UMI-handling](#step-i-umi-handling)
   2. [Adapter-/Quality Trimming](#step-ii-adapter-quality-trimming)
   3. [Genome Alignments](#step-iii-genome-alignments)
-    * [Allele-specific alignments (optional)](#allele-specific-alignments)
+    - [Allele-specific alignments (optional)](#allele-specific-alignments)
   4. [UMI-aware deduplication](#step-iv-umi-aware-deduplication)
   5. [Allele-specific sorting (optional)](#step-v-allele-specific-sorting) 
   6. [Methylation extraction](#step-vi-methylation-extraction)
+ * [Read-level methylation consistency analysis](#read-level-methylation-consistency)
 
 ## QUICK START
 
@@ -61,7 +62,7 @@ bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt
 
 etc.
 
-## More Detailed Processing Guide
+## DETAILED DATA PROCESSING GUIDE
 
 ### Step I: UMI handling
 
@@ -131,12 +132,12 @@ the alignments need to be carried out against a genome that has SNPs between the
 
 > Just briefly, if we assume a hybrid strain of Black6 (C57BL/6) and Castaneus (CAST_EiJ), the genome can be prepared using a command like this:
 
-> **Hybrid genome preparation**
+**Hybrid genome preparation**
 ```
 SNPsplit_genome_preparation -vcf mgp.v5.merged.snps_all.dbSNP142.vcf.gzSNP142.vcf.gz  --strain CAST_EiJ --reference Genomes/Mouse/GRCm38/
 ```
 
-> **Hybrid genome indexing**
+**Hybrid genome indexing**
 
 > The N-masked genome then requires indexing (as a one-off process), with a command like this:
 
@@ -144,7 +145,7 @@ SNPsplit_genome_preparation -vcf mgp.v5.merged.snps_all.dbSNP142.vcf.gzSNP142.vc
 bismark_genome_preparation --verbose /Genomes/Mouse/CAST_EiJ_N-masked/
 ```
 
-> **Allele-specific alignments**
+**Allele-specific alignments**
 ```
 bismark --genome /Genomes/Mouse/CAST_EiJ_N-masked/ -1 test_8bp_UMI_R1_val_1.fq.gz -2 test_8bp_UMI_R2_val_2.fq.gz
 ```
@@ -169,7 +170,7 @@ In this step, paired-end read alignments are deduplicated based on:
 
 •	alignment orientation
 
-•	UMI from the read header (see Step I)
+•	UMI from the read header (see [Step I](#step-i-umi-handling))
 
 ```
 deduplicate_bismark --barcode test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
@@ -187,7 +188,7 @@ test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 
 ## Step VI: Methylation extraction
 
-Askjkhdjfh
+The methylation extraction process can be carried out with a default parameters:
 
 ```
 bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
@@ -206,9 +207,10 @@ CpG_OB_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (top strand)
 CpG_OT_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (bottom strand)
 ```
 
-## Step VI: Genome alignments
+## Read-level methylation consistency
 
-Askjkhdjfh
+This will contain the filtering scripts and running the plotting script in R.
+
 
 
 
