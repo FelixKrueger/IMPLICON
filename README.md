@@ -42,6 +42,7 @@ trim_galore --paired *UMI*fastq.gz
 ```
 bismark --genome /Genomes/Mouse/GRCm38/ -1 test_8bp_UMI_R1_val_1.fq.gz -2 test_8bp_UMI_R2_val_2.fq.gz
 ```
+** for allele-specific alignments see [below](step-v-allele-specific-sorting)
 
 **Step IV: UMI-aware deduplication**
 
@@ -125,7 +126,12 @@ bismark --genome /Genomes/Mouse/GRCm38/ -1 test_8bp_UMI_R1_val_1.fq.gz -2 test_8
 **Note for allele-specific data**
 For allele-specific mouse hybrid data, the alignments need to be carried out against a genome that has SNPs between the parental strains masked out with Ns (N-masking). To prepare such a genome, please follow the instructions over at the [SNPsplit project](https://github.com/FelixKrueger/SNPsplit) page. The alignments as well as the output file will behave and look exactly the same, but an additional allele-sorting step needs to be carried out for allele-specific data.
 
+If we assume a hybrid strain of Black6 (C57BL/6) and Castaneus (CAST_EiJ)
 
+**Genome preparation**
+```
+SNPsplit_genome_preparation -vcf mgp.v5.merged.snps_all.dbSNP142.vcf.gzSNP142.vcf.gz  --strain CAST_EiJ --reference Genomes/Mouse/GRCm38/
+```
 
 **Relevant output files:**
 ```
