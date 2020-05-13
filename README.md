@@ -8,7 +8,7 @@ IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinte
 
 
 
-Last update: 12/05/2020
+Last update: 13/05/2020
 
 ### Table of Contents
 * [Quick Start](#quick-start)
@@ -197,6 +197,11 @@ test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 SNPsplit --snp_file all_SNPs_CAST_EiJ_GRCm38.txt.gz test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 ```
 
+**Relevant output files**
+```
+test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.genome1.bam (C57BL/6)
+test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.genome2.bam (CAST_EiJ)
+```
 
 
 ### Step VI: Methylation extraction
@@ -206,6 +211,8 @@ The methylation extraction process can be carried out with a default parameters:
 ```
 bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 ```
+
+> For allele-specific alignents, the files `...genome1.bam` and `...genome2.bam` should be used instead. 
 
 **Relevant output files**
 
