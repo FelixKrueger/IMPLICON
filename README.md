@@ -1,6 +1,8 @@
 # IMPLICON - bisulfite amplicon data for imprinted loci
 
-A processing guide for IMPLICON data. Link to the pre-print at [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042v1):
+This is a processing guide for IMPLICON data, with detailed intructions of how to get from raw data to methylation consistancy plots at imprinted loci. 
+
+Link to the pre-print at [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042v1):
 
 IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinted regions
 
@@ -181,12 +183,12 @@ deduplicate_bismark --barcode test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
 test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 ```
 
-## Step V: Allele-specific sorting
+### Step V: Allele-specific sorting
 
 > This step is optional, and only needs to be carried out for alignments against N-masked hybrid genomes processed with the     [SNPsplit package](https://github.com/FelixKrueger/SNPsplit).
 
 
-## Step VI: Methylation extraction
+### Step VI: Methylation extraction
 
 The methylation extraction process can be carried out with a default parameters:
 
@@ -207,7 +209,7 @@ CpG_OB_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (top strand)
 CpG_OT_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (bottom strand)
 ```
 
-## Read-level methylation consistency
+## READ-LEVEL METHYLATION CONSISTENCY
 
 This will contain the filtering scripts and running the plotting script in R.
 
