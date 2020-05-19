@@ -6,7 +6,7 @@ Pre-print at [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042
 
 
 
-Last update: 13/05/2020
+Last update: 19/05/2020
 
 ### Table of Contents
 * [Quick Start](#quick-start)
@@ -231,7 +231,7 @@ CpG_OT_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (bottom strand)
 
 ### filtering CpG context files
 
-This filtering step checks all CpG context result files in the current working directory for information about annotated cytosine positions of imprinted loci. The imprinted CpG annotation file is provided as command line argument to the script below, and needs to be in this format (tab-delimited) (`Start` and `End` are the same position (= a single cytosine)):
+This filtering step checks all CpG context result files in the current working directory for information about annotated cytosine positions of imprinted loci. The imprinted CpG annotation file (e.g. [Imprinted CpG positions Mouse](CpG_imprinted_positions_mouse.txt) or [Imprinted CpG positions Human](CpG_imprinted_positions_human.txt)) is provided as command line argument to the script below, and needs to be in this format (tab-delimited) (`Start` and `End` are the same position (= a single cytosine)):
 
 ```
 Probe	Chromosome	Start	End	Feature
