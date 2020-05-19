@@ -19,6 +19,8 @@ Last update: 13/05/2020
   5. [Allele-specific sorting (optional)](#step-v-allele-specific-sorting) 
   6. [Methylation extraction](#step-vi-methylation-extraction)
  * [Read-level methylation consistency analysis](#read-level-methylation-consistency)
+  1. [Filtering Implicon CpG context](#filtering-cpg-context-files)
+  2. [Plotting read-level methylation consistency](#plotting-read-level-methylation-consistency)
 
 ## QUICK START
 
@@ -254,10 +256,16 @@ readID	sample	implicon	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22
 2	test	Klf4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 3	test	Klf4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 4	test	Klf4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-5	test	Sox2	NA	1	1	1	1	0	1	1 1	1	1	1	1	1
+5	test	Sox2	NA	1	1	1	1	0	1	1 	1	1	1	1	1	1
 ...
 ```
 
-**readID**: incremental number reads processed. **sample**: extracted from the filename via regex. **implicon**: name of implicon in question (as provided by the annotation file above). **1..31**: methylation call for subsequent positions of cytosines(in CpG context) within that implicon. *0* means unmethylated, *1* means methylated. Annotated positions without a methylation call recieve *NA*.
+**readID**: incremental number reads processed. **sample**: extracted from the filename via regex. **implicon**: name of implicon in question (as provided by the annotation file above). **1..31**: methylation call for subsequent positions of cytosines (in CpG context) within that implicon. *0* means unmethylated, *1* means methylated. Annotated positions without a methylation call recieve '*NA*'.
+
+### Plotting read-level methylation consistency
+
+This is an example output:
+
+<img title="Methylation consistency per read-pair" style="float:right;margin:20px 20 20 20px" id="methylation_consistency" src="Docs/Images/consistency_example.png" height="300" >
 
 [<img title="Babraham Bioinformatics" style="float:right;margin:600px 20 20 20px" id="Babraham Bioinformatics" src="Docs/Images/logo.png" height="88" >](http://www.bioinformatics.babraham.ac.uk/index.html)
