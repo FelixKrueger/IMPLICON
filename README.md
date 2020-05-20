@@ -6,7 +6,7 @@ Pre-print at [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042
 
 
 
-Last update: 19/05/2020
+Last update: 20/05/2020
 
 ### Table of Contents
 * [Quick Start](#quick-start)
@@ -18,7 +18,7 @@ Last update: 19/05/2020
   4. [UMI-aware deduplication](#step-iv-umi-aware-deduplication)
   5. [Allele-specific sorting (optional)](#step-v-allele-specific-sorting) 
   6. [Methylation extraction](#step-vi-methylation-extraction)
- * [Read-level methylation consistency analysis](#read-level-methylation-consistency)
+* [Read-level methylation consistency analysis](#read-level-methylation-consistency)
   1. [Filtering Implicon CpG context](#filtering-cpg-context-files)
   2. [Plotting read-level methylation consistency](#plotting-read-level-methylation-consistency)
 
@@ -231,7 +231,7 @@ CpG_OT_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (bottom strand)
 
 ### filtering CpG context files
 
-This filtering step checks all CpG context result files in the current working directory for information about annotated cytosine positions of imprinted loci. The imprinted CpG annotation file (e.g. [Imprinted CpG positions Mouse](CpG_imprinted_positions_mouse.txt) or [Imprinted CpG positions Human](CpG_imprinted_positions_human.txt)) is provided as command line argument to the script below, and needs to be in this format (tab-delimited) (`Start` and `End` are the same position (= a single cytosine)):
+This filtering step checks all CpG context result files in the current working directory for information about annotated cytosine positions of imprinted loci. The imprinted CpG annotation file (e.g. [Imprinted CpG positions Mouse (GRCm38)](CpG_imprinted_positions_mouse.txt) or [Imprinted CpG positions Human (GRCh38)](CpG_imprinted_positions_human.txt)) is provided as command line argument to the script below, and needs to contain all relevant CpG positions as a single line in this format (tab-delimited) (`Start` and `End` are the same position (= a single cytosine)):
 
 ```
 Probe	Chromosome	Start	End	Feature
@@ -246,9 +246,9 @@ Chr3:34649383-34649383	3	34649383	34649383	Sox2
 ...
 ```
 
-If a read pair is found to overlap a known imprinted locus, all CpG positions are written to a file called: `methylation_state_consistency.txt`. All other reads are skipped.
+If a read pair is found to overlap a known imprinted locus, all CpG positions of the entire read pair are written to a file called: `methylation_state_consistency.txt`. All other reads are skipped. 
 
-The **methylation consistency file** looks like this:
+In contrast to standard methylation result files such as the coverage file, in this format each line contains an entire read-pair and thus preserves the *methylation state on a per-read level*. The **methylation consistency file** looks like this:
 
 ```
 readID	sample	implicon	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22
@@ -260,7 +260,47 @@ readID	sample	implicon	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22
 ...
 ```
 
-**readID**: incremental number reads processed. **sample**: extracted from the filename via regex. **implicon**: name of implicon in question (as provided by the annotation file above). **1..31**: methylation call for subsequent positions of cytosines (in CpG context) within that implicon. *0* means unmethylated, *1* means methylated. Annotated positions without a methylation call recieve '*NA*'.
+**readID**: incremental number reads processed. **sample**: extracted from the filename via regex (might have to be adapted to different types of filenames). **implicon**: name of implicon in question (as provided by the annotation file above, last column `Feature`). **1..31**: methylation call for subsequent positions of cytosines (in CpG context) within that implicon. *0* means unmethylated, *1* means methylated. Annotated positions without a methylation call recieve '*NA*'.
+
+The filtering scripts in the following section require Python 3 (3.6 and above).
+
+**Command for mouse data (non allele-specific):**
+
+```
+./filter_coordinates_mouse_not_allele_specific.py CpG_imprinted_positions_mouse.txt
+```
+
+**Command for mouse data (allele-specific):**
+
+```
+./filter_coordinates_mouse_allele_specific.py CpG_imprinted_positions_mouse.txt 
+```
+
+As outlined above, this requires the data to have been processed with SNPsplit first. In addition to the output for non-allelic processing above, this option also required the filename to contain `genome1` or `genome2` which is extracted and added to the methylation consistency file, like so:
+
+```
+readID	sample	allele	implicon	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21
+	22	23	24	25	26	27	28	29	30	31
+1	2C_B6_miPSC	B6	Gnas	0	0	0	0	0	0	0	0	0	0
+2	2C_B6_miPSC	B6	Commd1	NA	0	0	0	0	0	0	0	0	0	0	0	0
+3	2C_B6_miPSC	B6	Commd1	NA	0	0	0	0	0	0	0	0	0	0	0	0
+4	2C_B6_miPSC	B6	Gnas	0	1	1	1	1	0	1	1	1	1
+5	2C_B6_miPSC	B6	Dlk1	NA	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0NA	NA
+
+```
+Whereby **allele** is one of 'B6' (genome1), or 'CAST' (genome2).
+
+**Command for human data:**
+
+```
+./filter_coordinates_human_amplicons.py CpG_imprinted_positions_human.txt
+```
+
+
+**Relevant output files**
+```
+methylation_state_consistency.txt
+```
 
 ### Plotting read-level methylation consistency
 
