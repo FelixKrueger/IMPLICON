@@ -6,7 +6,7 @@ Pre-print at [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042
 
 
 
-Last update: 19/05/2020
+Last update: 20/05/2020
 
 ### Table of Contents
 * [Quick Start](#quick-start)
@@ -18,7 +18,7 @@ Last update: 19/05/2020
   4. [UMI-aware deduplication](#step-iv-umi-aware-deduplication)
   5. [Allele-specific sorting (optional)](#step-v-allele-specific-sorting) 
   6. [Methylation extraction](#step-vi-methylation-extraction)
- * [Read-level methylation consistency analysis](#read-level-methylation-consistency)
+* [Read-level methylation consistency analysis](#read-level-methylation-consistency)
   1. [Filtering Implicon CpG context](#filtering-cpg-context-files)
   2. [Plotting read-level methylation consistency](#plotting-read-level-methylation-consistency)
 
