@@ -304,7 +304,26 @@ methylation_state_consistency.txt
 
 ### Plotting read-level methylation consistency
 
-This is an example output:
+In this last section, you really only need to fire up an R-Studio session andload one of the provided `Rmd` scripts, e.g. `visualise_implicon_methylation_consistency_mouse_allele_specific.Rmd`. 
+
+Simply add the the `methylation_state_consistency.txt` file to the same folder as the `Rmd` script (and potentially change the filename in this line of the script:
+
+```
+read_tsv("methylation_state_consistency.txt") -> input
+```
+
+The function takes in a certain Sample name as well as an Implicon name, and then:
+
+- filters the comprehensive data table for a single Implicon
+- filters for a single Sample
+- transform the data to long format
+- group the data by annotated CpG position, and exclude positions that were not covered at all (NA call)
+
+- extract up to 5000 reads, 
+- sort reads from highly to lowly methylated, and finally
+- plot reads per gene, per sample
+
+Either running or knitting this file to HTML format should produce various output plots which look like this:
 
 <img title="Methylation consistency per read-pair" style="float:right;margin:20px 20 20 20px" id="methylation_consistency" src="Docs/Images/consistency_example.png" height="300" >
 
