@@ -231,7 +231,7 @@ CpG_OT_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (bottom strand)
 
 ### filtering CpG context files
 
-This filtering step checks all CpG context result files in the current working directory for information about annotated cytosine positions of imprinted loci. The imprinted CpG annotation file (e.g. [Imprinted CpG positions Mouse](CpG_imprinted_positions_mouse.txt) or [Imprinted CpG positions Human](CpG_imprinted_positions_human.txt)) is provided as command line argument to the script below, and needs to be in this format (tab-delimited) (`Start` and `End` are the same position (= a single cytosine)):
+This filtering step checks all CpG context result files in the current working directory for information about annotated cytosine positions of imprinted loci. The imprinted CpG annotation file (e.g. [Imprinted CpG positions Mouse](CpG_imprinted_positions_mouse.txt) or [Imprinted CpG positions Human](CpG_imprinted_positions_human.txt)) is provided as command line argument to the script below, and needs to contain all relevant CpG positions as a single line in this format (tab-delimited) (`Start` and `End` are the same position (= a single cytosine)):
 
 ```
 Probe	Chromosome	Start	End	Feature
@@ -246,9 +246,9 @@ Chr3:34649383-34649383	3	34649383	34649383	Sox2
 ...
 ```
 
-If a read pair is found to overlap a known imprinted locus, all CpG positions are written to a file called: `methylation_state_consistency.txt`. All other reads are skipped.
+If a read pair is found to overlap a known imprinted locus, all CpG positions of the entire read pair are written to a file called: `methylation_state_consistency.txt`. All other reads are skipped. 
 
-The **methylation consistency file** looks like this:
+In contrast to standard methylation result files such as the coverage file, in this format each line contains an entire read-pair and thus preserves the *methylation state on a per-read level*. The **methylation consistency file** looks like this:
 
 ```
 readID	sample	implicon	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22
@@ -260,7 +260,12 @@ readID	sample	implicon	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22
 ...
 ```
 
-**readID**: incremental number reads processed. **sample**: extracted from the filename via regex. **implicon**: name of implicon in question (as provided by the annotation file above). **1..31**: methylation call for subsequent positions of cytosines (in CpG context) within that implicon. *0* means unmethylated, *1* means methylated. Annotated positions without a methylation call recieve '*NA*'.
+**readID**: incremental number reads processed. **sample**: extracted from the filename via regex (might have to be adapted to different types of filenames). **implicon**: name of implicon in question (as provided by the annotation file above, last column `Feature`). **1..31**: methylation call for subsequent positions of cytosines (in CpG context) within that implicon. *0* means unmethylated, *1* means methylated. Annotated positions without a methylation call recieve '*NA*'.
+
+**Relevant output files**
+```
+methylation_state_consistency.txt
+```
 
 ### Plotting read-level methylation consistency
 
