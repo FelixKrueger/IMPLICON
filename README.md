@@ -66,6 +66,7 @@ deduplicate_bismark --barcode test_8bp_UMI_R1_val_1_bismark_bt2_pe.bam
 bismark_methylation_extractor --bedGraph --gzip test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bam
 ```
 
+For filtering and visualising CpG level results, please see [Read-level methylation consistency analysis](#read-level-methylation-consistency).
 
 
 ## DETAILED DATA PROCESSING GUIDE
