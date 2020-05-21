@@ -248,7 +248,7 @@ Chr3:34649383-34649383	3	34649383	34649383	Sox2
 
 If a read pair is found to overlap a known imprinted locus, all CpG positions of the entire read pair are written to a file called: `methylation_state_consistency.txt`. All other reads are skipped. 
 
-In contrast to standard methylation result files such as the coverage file, in this format each line contains an entire read-pair and thus preserves the *methylation state on a per-read level*. The **methylation consistency file** looks like this:
+In contrast to standard methylation result files, such as the Bismark coverage file, each line of the methylation consistency file contains the CpG methylation data of an entire read-pair, and thus preserves the *methylation state on a per-read level*. The **methylation consistency file** looks like this:
 
 ```
 readID	sample	implicon	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22
@@ -276,7 +276,7 @@ The filtering scripts in the following section require Python 3 (3.6 and above).
 ./filter_coordinates_mouse_allele_specific.py CpG_imprinted_positions_mouse.txt 
 ```
 
-As outlined above, this requires the data to have been processed with SNPsplit first. In addition to the output for non-allelic processing above, this option also required the filename to contain `genome1` or `genome2` which is extracted and added to the methylation consistency file, like so:
+As outlined above, allele-specific processing requires the data to have been processed with `SNPsplit`. In addition to the output for non-allelic processing above, using the script [filter_coordinates_mouse_allele_specific.py](filter_coordinates_mouse_allele_specific.py) also requires the filenames to contain `genome1` (the reference) or `genome2` the alternative strain) which is extracted and added to the methylation consistency file as 'allele', like so:
 
 ```
 readID	sample	allele	implicon	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21
@@ -304,9 +304,9 @@ methylation_state_consistency.txt
 
 ### Plotting read-level methylation consistency
 
-In this last section, you really only need to fire up an R-Studio session andload one of the provided `Rmd` scripts, e.g. `visualise_implicon_methylation_consistency_mouse_allele_specific.Rmd`. 
+In this last section, you really only need to fire up an R-Studio session and open one of the provided `Rmd` scripts, e.g. [`visualise_implicon_methylation_consistency_mouse_allele_specific.Rmd`](visualise_implicon_methylation_consistency_mouse_allele_specific.Rmd). 
 
-Simply add the the `methylation_state_consistency.txt` file to the same folder as the `Rmd` script (and potentially change the filename in this line of the script:
+Simply add the `methylation_state_consistency.txt` file to the same folder as the `Rmd` script and potentially change the filename in this line of the script:
 
 ```
 read_tsv("methylation_state_consistency.txt") -> input
