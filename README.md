@@ -276,7 +276,7 @@ The filtering scripts in the following section require Python 3 (3.6 and above).
 ./filter_coordinates_mouse_allele_specific.py CpG_imprinted_positions_mouse.txt 
 ```
 
-As outlined above, allele-specific processing requires the data to have been processed with `SNPsplit`. In addition to the output for non-allelic processing above, using the script [filter_coordinates_mouse_allele_specific.py](filter_coordinates_mouse_allele_specific.py) also requires the filenames to contain `genome1` (the reference) or `genome2` the alternative strain) which is extracted and added to the methylation consistency file as 'allele', like so:
+As outlined above, allele-specific processing requires the data to have been processed with `SNPsplit`. In addition to the output for non-allelic processing above, using the script [filter_coordinates_mouse_allele_specific.py](filter_coordinates_mouse_allele_specific.py) also requires the filenames to contain `genome1` (the reference) or `genome2` (the alternative strain) which is extracted and added to the methylation consistency file as 'allele', like so:
 
 ```
 readID	sample	allele	implicon	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21
@@ -312,7 +312,7 @@ Simply add the `methylation_state_consistency.txt` file to the same folder as th
 read_tsv("methylation_state_consistency.txt") -> input
 ```
 
-The function takes in a certain Sample name as well as an Implicon name, and then:
+The visualisation Rmd script processes the methylation consistency file, which may contain one or several samples (and alleles for allele-specific data), etracts **Sample name** as well as **Implicon name**, and applies the following procedures:
 
 - filters the comprehensive data table for a single Implicon
 - filters for a single Sample
@@ -326,5 +326,8 @@ The function takes in a certain Sample name as well as an Implicon name, and the
 Either running or knitting this file to HTML format should produce various output plots which look like this:
 
 <img title="Methylation consistency per read-pair" style="float:right;margin:20px 20 20 20px" id="methylation_consistency" src="Docs/Images/consistency_example.png" height="300" >
+
+For any questions about this data processing guide, please get [in touch](mailto:felix.krueger@babraham.ac.uk).
+
 
 [<img title="Babraham Bioinformatics" style="float:right;margin:600px 20 20 20px" id="Babraham Bioinformatics" src="Docs/Images/logo.png" height="88" >](http://www.bioinformatics.babraham.ac.uk/index.html)
