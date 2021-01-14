@@ -224,8 +224,8 @@ test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.bismark.cov.gz
 
 **CpG context files for bisulfite consistency analysis:**
 ```
-CpG_OB_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (top strand)
-CpG_OT_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (bottom strand)
+CpG_OT_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (top strand)
+CpG_OB_test_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz (bottom strand)
 ```
 
 ## READ-LEVEL METHYLATION CONSISTENCY
