@@ -45,14 +45,17 @@ def read_bismark_cpg_file(cfile,outfh):
 	global reads_processed
 
 	with gzip.open(cfile) as cf:
-		cf.readline() # discarding header
 		
 		read = {}   # dictionary storing one full read and its covered positions
 		old_readID = ''
-		positions = {} # dictionary storing one full read and its covered positions
-
+		
 		for line in cf:
 			
+			# discarding optional header
+			if line.decode().startswith("Bismark"): 
+				# print (f"First line: >>{line.decode().strip()}<<. Skipping...")
+				continue
+
 			readID,state,chrom,pos = [ line.decode().strip().split(sep="\t")[i] for i in [0,1,2,3]]
 			pos = int(pos)
 			# print(f"ID: {readID}\tState: {state}\tChromosome: {chrom}\tPos: {pos}")
@@ -61,37 +64,33 @@ def read_bismark_cpg_file(cfile,outfh):
 				
 				if pos in cpg_positions[chrom]:	
 					# print (f"Found it! ID: {readID}\tPos: {pos}\tGene: {cpg_positions[chrom][pos]}")
-					
 					if old_readID == '': # first readID
-					    # print (f"Setting old_readID to {readID}")
+						# print (f"Setting old_readID to {readID}")
 						old_readID = readID
 						read['ID'] = readID
 						read['gene'] = cpg_positions[chrom][pos]
 						read['filename']  = cfile
-						read['positions'] = []
+						read['positions'] = {}
 
 					if old_readID == readID: # still the same read. Appending this position
-						#' read['positions'].append(f"{state}:{pos}")
-						positions[pos] = state
+						read['positions'][pos] = state
 					else:
 						# print (f"Found new read.\nOld read ID: {old_readID}\nnew read ID: {readID}\nProcessing old read now.")
 						reads_processed += 1
-						process_read(read,positions,outfh,reads_processed) # process entire Read to generate graphable output
+						process_read(read,outfh,reads_processed) # process entire Read to generate graphable output
 						
 						# print (f"Setting up new read")
 						# Resetting read dictionary
 						read.clear()
 						# print ("clearing read dictionary")
-						# sleep(1)
-
-						# Setting up new read
+						
+						### Setting up new read
 						old_readID = readID
 						read['ID'] = readID
 						read['gene'] = cpg_positions[chrom][pos]
 						read['filename']  = cfile
-						read['positions'] = []
-					
-
+						read['positions'] = {}
+						read['positions'][pos] = state
 				else:
 					continue # position is not of interest as position doesn't match known positions
 			else:
@@ -99,77 +98,68 @@ def read_bismark_cpg_file(cfile,outfh):
 		
 		reads_processed += 1
 		if read: # only processing if there ever was an amplicon
-			process_read(read,positions,outfh,reads_processed) # process entire Read to generate graphable output
+			process_read(read,outfh,reads_processed) # process entire Read to generate graphable output
 		
-	
-	
 	print (f"Finished processing file {cfile}. Amplicon reads processed in total: {reads_processed}\n###############\n")
 	sleep(1)
 
 
-def process_read(read, positions, outfh, reads_processed):
+def process_read(read, outfh, reads_processed):
 	
-	# print (f"Got following dict: {read_positions}")
-		
+	# print (f"Got following dict: {read}")
 	# extracting useful parts from filename
-	# This might have to be adapted for different styles of filenames
+	### This might have to be adapted for different styles of filenames
 
 	# pattern = 'CpG_O._lane\d+_[TACG]{8}_(.*)_L00.*\.(genome[12])'
 	# pattern = 'CpG_.+_lane\d+_(.*)_[TACG]{8}_L00.*'	
-	
 	# example filename: CpG_OB_lane7212_TAGCTTGT_ish4_1_noDox_C_L001_8bp_UMI_R1_val_1_bismark_bt2_pe.deduplicated.txt.gz
-	pattern = 'CpG_.+_lane\d+_[TACG]{8}_(.*)_L00.*'
+	# pattern = 'CpG_.+_lane\d+_[TACG]{8}_(.*)_L00.*'
+	
+	### Rexxi
+	# CpG_OB_2_S2_L001_R1_001_val_1_bismark_bt2_pe.nonCG_filtered.txt.gz
+	pattern = 'CpG_.+_(.*_.*)_L00.*'
+	
 	filename = read['filename']
 	p = re.compile(pattern)
-	#print (filename)
+	# print (filename)
 	m = p.findall(filename)
 	sample = m[0]
-	#print (sample)
-	#sleep(1)
-
+	# print (sample)
+	
 	output = []
-	output.append(reads_processed) # using a runnin read count instead of
+	output.append(reads_processed) # using a running read count instead of
 	# output.append(read['ID'])    # this rather long readID to save space from the output file
 	output.append(sample)
 	# output.append(allele)
 	output.append(read['gene']) 
-	#print (f"{read_positions['ID']}\t{sample}\t{allele}\t{read_positions['gene']}\t{genes[read_positions['gene']]}\t{len(read_positions['positions'])}",end="\t")
+	# print (f"{read_positions['ID']}\t{sample}\t{allele}\t{read_positions['gene']}\t{genes[read_positions['gene']]}\t{len(read_positions['positions'])}",end="\t")
 	
 	methylation_states = []
 
 	for implicon_pos in genes[read['gene']]:
 		# print (f"{implicon_pos}")
 
-		if implicon_pos in positions.keys():
-			# print (f"{implicon_pos} and {positions[implicon_pos]}" )
-			if positions[implicon_pos] == '-':
+		if implicon_pos in read['positions'].keys():
+			# print (f"{implicon_pos} and {read['positions'][implicon_pos]}" )
+			if read['positions'][implicon_pos] == '-':
 				methylation_states.append(0)
-			elif positions[implicon_pos] == '+':
+			elif read['positions'][implicon_pos] == '+':
 				methylation_states.append(1)
 			else:
 				sys.exit("Failed to get a sensible methylation state for this position")
 		else:
+			# print (f"{implicon_pos} not found, assigning NA" )
 			methylation_states.append("NA")
 	
 	# print (f"Methylation states: {methylation_states}")
 	# joining the output
 	output += methylation_states
-	#  print ('\t'.join(map(str,output)))
+	# print ('\t'.join(map(str,output)))
 	outfh.write('\t'.join(map(str,output)) + "\n")
 		
-	# for cpg_pos in read['positions']:
-	# 	state,pos = cpg_pos.split(":")
-	# 	print (f"{state}\t{pos}",end="\t")
-	# 	#outfh.write(f"\t{cpg_pos}")
-		# sleep(1)
-		
-	#print ()
-	#outfh.write("\n")
 	
-	#sleep(1)
-
 def eprint(*args, **kwargs):
-    print(*args, file=sys.stderr, **kwargs)	
+	print(*args, file=sys.stderr, **kwargs)	
 
 def read_annotation():
 	
