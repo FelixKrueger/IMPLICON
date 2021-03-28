@@ -6,6 +6,11 @@ from time import sleep
 import timeit
 import re
 
+'''
+This script was last changed on March 28, 2021 
+
+'''
+
 cpg_positions = {} # storing all relevant CpG positions for the amplicon experiment
 genes = {}         # the total number of possible CpG positions per gene
 
@@ -44,14 +49,16 @@ def read_bismark_cpg_file(cfile,outfh):
 	global reads_processed
 
 	with gzip.open(cfile) as cf:
-		cf.readline() # discarding header
-		
+				
 		read = {}   # dictionary storing one full read and its covered positions
 		old_readID = ''
-		positions = {} # dictionary storing one full read and its covered positions
-
+		
 		for line in cf:
-			
+			# discarding optional header
+			if line.decode().startswith("Bismark"): 
+				# print (f"First line: >>{line.decode().strip()}<<. Skipping...")
+				continue
+
 			readID,state,chrom,pos = [ line.decode().strip().split(sep="\t")[i] for i in [0,1,2,3]]
 			pos = int(pos)
 			# print(f"ID: {readID}\tState: {state}\tChromosome: {chrom}\tPos: {pos}")
@@ -67,15 +74,15 @@ def read_bismark_cpg_file(cfile,outfh):
 						read['ID'] = readID
 						read['gene'] = cpg_positions[chrom][pos]
 						read['filename']  = cfile
-						read['positions'] = []
+						read['positions'] = {}
 
 					if old_readID == readID: # still the same read. Appending this position
 						#' read['positions'].append(f"{state}:{pos}")
-						positions[pos] = state
+						read['positions'][pos] = state
 					else:
 						# print (f"Found new read.\nOld read ID: {old_readID}\nnew read ID: {readID}\nProcessing old read now.")
 						reads_processed += 1
-						process_read(read,positions,outfh,reads_processed) # process entire Read to generate graphable output
+						process_read(read,outfh,reads_processed) # process entire Read to generate graphable output
 						
 						# print (f"Setting up new read")
 						# Resetting read dictionary
@@ -87,16 +94,16 @@ def read_bismark_cpg_file(cfile,outfh):
 						read['ID'] = readID
 						read['gene'] = cpg_positions[chrom][pos]
 						read['filename']  = cfile
-						read['positions'] = []
+						read['positions'] = {}
+						read['positions'][pos] = state
 					
-
 				else:
 					continue # position is not of interest as position doesn't match known positions
 			else:
 				continue # position is not of interest as chromosome doesn't match known positions
 		
 		reads_processed += 1
-		process_read(read,positions,outfh,reads_processed) # process entire Read to generate graphable output
+		process_read(read,outfh,reads_processed) # process entire Read to generate graphable output
 		
 	
 	
@@ -104,7 +111,7 @@ def read_bismark_cpg_file(cfile,outfh):
 	sleep(1)
 
 
-def process_read(read, positions, outfh, reads_processed):
+def process_read(read, outfh, reads_processed):
 	
 	# print (f"Got following dict: {read_positions}")
 		
@@ -139,11 +146,11 @@ def process_read(read, positions, outfh, reads_processed):
 	for implicon_pos in genes[read['gene']]:
 		# print (f"{implicon_pos}")
 
-		if implicon_pos in positions.keys():
-			# print (f"{implicon_pos} and {positions[implicon_pos]}" )
-			if positions[implicon_pos] == '-':
+		if implicon_pos in read['positions'].keys():
+			# print (f"{implicon_pos} and {read['positions'][implicon_pos]}" )
+			if read['positions'][implicon_pos] == '-':
 				methylation_states.append(0)
-			elif positions[implicon_pos] == '+':
+			elif read['positions'][implicon_pos] == '+':
 				methylation_states.append(1)
 			else:
 				sys.exit("Failed to get a sensible methylation state for this position")
@@ -156,17 +163,7 @@ def process_read(read, positions, outfh, reads_processed):
 	#  print ('\t'.join(map(str,output)))
 	outfh.write('\t'.join(map(str,output)) + "\n")
 		
-	# for cpg_pos in read['positions']:
-	# 	state,pos = cpg_pos.split(":")
-	# 	print (f"{state}\t{pos}",end="\t")
-	# 	#outfh.write(f"\t{cpg_pos}")
-		# sleep(1)
-		
-	#print ()
-	#outfh.write("\n")
 	
-	#sleep(1)
-
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)	
 
