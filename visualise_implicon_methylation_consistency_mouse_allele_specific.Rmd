@@ -28,8 +28,8 @@ Each read comes annotated with its sample name, allele (Black6 or CAST), the imp
 
 ```{r}
 # This file is a collation of all reads that overlap targetted implicons for all samples
-read_tsv("methylation_state_consistency.txt") -> input
-
+# Edit 26 March 2021: We had to change the input column type to "double", as a few columns were auto-detected as "character"
+read_tsv("methylation_state_consistency.txt", col_types = cols(.default = "d", sample = col_character(), allele = col_character(), implicon = col_character())) -> input
 colour.meth   <- "#3e4444"
 colour.unmeth <- "#82b74b"
 colours <- c(colour.meth,colour.unmeth)
