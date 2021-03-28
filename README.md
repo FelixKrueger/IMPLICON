@@ -2,11 +2,11 @@
 
 This is a processing guide for IMPLICON data, with detailed intructions of how to get from raw data to methylation consistancy plots at imprinted loci. 
 
-Pre-print at [bioRxiv](https://www.biorxiv.org/content/10.1101/2020.03.21.000042v1): **IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinted regions**
+Publication at [NAR](https://academic.oup.com/nar/article/48/16/e92/5867412): **IMPLICON: an ultra-deep sequencing method to uncover DNA methylation at imprinted regions**
 
 
 
-Last update: 20/05/2020
+Last update: 28/03/2021
 
 ### Table of Contents
 * [Quick Start](#quick-start)
