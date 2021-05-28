@@ -7,8 +7,7 @@ import timeit
 import re
 
 '''
-This script was last changed on March 28, 2021 
-
+This script was last changed on May 28, 2021 
 '''
 
 cpg_positions = {} # storing all relevant CpG positions for the amplicon experiment
@@ -102,9 +101,9 @@ def read_bismark_cpg_file(cfile,outfh):
 			else:
 				continue # position is not of interest as chromosome doesn't match known positions
 		
-		reads_processed += 1
-		process_read(read,outfh,reads_processed) # process entire Read to generate graphable output
-		
+		if read:
+			process_read(read,outfh,reads_processed) # process entire Read to generate graphable output
+			reads_processed += 1
 	
 	
 	print (f"Finished processing file {cfile}. Amplicon reads processed in total: {reads_processed}\n###############\n")
@@ -113,7 +112,7 @@ def read_bismark_cpg_file(cfile,outfh):
 
 def process_read(read, outfh, reads_processed):
 	
-	# print (f"Got following dict: {read_positions}")
+	# print (f"Got following read {read}")
 		
 	# extracting useful parts from filename
 	pattern = 'CpG_O._lane\d+_[TACG]{8}_(.*)_L00.*\.(genome[12])'
