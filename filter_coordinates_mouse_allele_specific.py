@@ -113,12 +113,12 @@ def read_bismark_cpg_file(cfile,outfh):
 def process_read(read, outfh, reads_processed):
 	
 	# print (f"Got following read {read}")
-		
+	# sleep(1)	
+	filename = read['filename']
 	# extracting useful parts from filename
 	pattern = 'CpG_O._lane\d+_[TACG]{8}_(.*)_L00.*\.(genome[12])'
 	# example read: 'CpG_OB_lane6808_TCTGCTGT_9C_A8_miPSC_L001_R1.UMI_val_1_CAST_EiJ_N-masked_GRCm38_bismark_bt2_pe.deduplicated.genome1.txt.gz'
-
-	filename = read['filename']
+	#                CpG_OT_lane7950_TTGGAGGT_1678_Cerb_L001_8bp_UMI_CAST_EiJ_N-masked_GRCm38_bismark_bt2_pe.deduplicated.genome2.txt.gz
 	p = re.compile(pattern)
 	# print (filename)
 	m = p.findall(filename)
